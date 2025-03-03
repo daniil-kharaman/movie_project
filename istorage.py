@@ -17,7 +17,7 @@ class IStorage(ABC):
 
 
     @abstractmethod
-    def list_movies(self, movies):
+    def list_movies(self):
 
         """Prints all movies from the database"""
 
@@ -25,7 +25,7 @@ class IStorage(ABC):
 
 
     @abstractmethod
-    def add_movie(self, title, year, rating, poster, movies):
+    def add_movie(self, title, year, rating, poster):
 
         """
         Adds a movie to the movies database.
@@ -37,7 +37,7 @@ class IStorage(ABC):
 
 
     @abstractmethod
-    def delete_movie(self, index, movies):
+    def delete_movie(self, index):
 
         """
         Deletes a movie from the movies database.
@@ -49,7 +49,7 @@ class IStorage(ABC):
 
 
     @abstractmethod
-    def update_movie(self, title, rating, movies):
+    def update_movie(self, title, rating):
 
         """
         Updates a movie from the movies database.
