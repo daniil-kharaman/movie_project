@@ -57,13 +57,13 @@ def save_movies(movies):
 
 
 
-def add_movie(title, year, rating):
+def add_movie(title, year, rating, movies):
     """
     Adds a movie to the movies database.
     Loads the information from the JSON file, add the movie,
     and saves it. The function doesn't need to validate the input.
     """
-    movies = get_movies()
+    # movies = get_movies()
 
     with open('data.json', 'w') as file:
         movies.append({

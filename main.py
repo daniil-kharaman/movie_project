@@ -110,7 +110,7 @@ def add_movie(movies):
             rating_input = get_valid_rating()
             year_input = get_valid_year()
             print(Style.RESET_ALL)
-            movie_storage.add_movie(movie_input, year_input, rating_input)
+            movie_storage.add_movie(movie_input, year_input, rating_input, movies)
             print(f'The movie {movie_input} is successfully added.')
             break
         except Exception as e:
