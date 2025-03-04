@@ -330,7 +330,9 @@ class MovieApp:
 
 
     def rating_histogram(self, movies):
+
         """Creates in the directory the png file with the histogram based on movies' ratings"""
+
         try:
             ratings = []
             for movie in movies:
@@ -347,67 +349,86 @@ class MovieApp:
             print(self.error_colour(f'The following error has occurred: {e}'))
 
 
-    def filter_movies(self, movies):
-        """
-        Prompts the user to input the minimum rating, start year, and end year of movies,
-        or leave them blank to skip those filters.
-        Prints the movies based on the entered criteria.
-        """
+    def _get_minimum_rating(self):
+
+        """Prompts the user to input the minimum rating of movies, or leave it blank to skip this filter"""
+
         DISABLE_MIN_RATING = -1
-        DISABLE_START_YEAR = -1
-        DISABLE_END_YEAR = 10000
-        # I preserved a distinct input validation in this function because the logic here distinguishes from the logic in get_valid_rating
-        # TODO This is correct, however, the function is still a bit too long and could be split into smaller functions. For example, each while loop could be a separate function. this will significantly improve the readability of this function.
         while True:
-            while True:
-                try:
-                    minimum_rating = input(self.input_colour('Enter minimum rating (leave blank for no minimum rating): '))
-                    if len(minimum_rating) > 0:
-                        minimum_rating = float(minimum_rating)
-                        if minimum_rating > 10 or minimum_rating < 0:
-                            raise Exception(self.error_colour('Wrong format of the rating. Only 0-10 are allowed.'))
-                    else:
-                        minimum_rating = DISABLE_MIN_RATING
-                    break
-                except ValueError:
-                    print(self.error_colour('Only integers are allowed.'))
-                except Exception as e:
-                    print(e)
-                finally:
-                    print(Style.RESET_ALL)
-            while True:
-                # same here
-                try:
-                    start_year = input(self.input_colour('Enter start year (leave blank for no start year): '))
-                    if len(start_year) > 0:
-                        if start_year.isdigit() and len(start_year) != 4:
-                            raise Exception(self.error_colour('Wrong format of the year.'))
-                        start_year = int(start_year)
-                    else:
-                        start_year = DISABLE_START_YEAR
-                    break
-                except ValueError:
-                    print(self.error_colour('Only integers are allowed.'))
-                except Exception as e:
-                    print(e)
-                finally:
-                    print(Style.RESET_ALL)
-            while True:
-                try:
-                    end_year = input(self.input_colour('Enter end year (leave blank for no end year): '))
-                    if len(end_year) > 0:
-                        if end_year.isdigit() and len(end_year) != 4:
-                            raise Exception(self.error_colour('Wrong format of the year.'))
-                        end_year = int(end_year)
-                    else:
-                        end_year = DISABLE_END_YEAR
-                    break
-                except ValueError:
-                    print(self.error_colour('Only integers are allowed.'))
-                except Exception as e:
-                    print(e)
-                finally:
-                    print(Style.RESET_ALL)
+            try:
+                minimum_rating = input(self.input_colour('Enter minimum rating (leave blank for no minimum rating): '))
+                if len(minimum_rating) > 0:
+                    minimum_rating = float(minimum_rating)
+                    if minimum_rating > 10 or minimum_rating < 0:
+                        raise Exception(self.error_colour('Wrong format of the rating. Only 0-10 are allowed.'))
+                    return minimum_rating
+                else:
+                    minimum_rating = DISABLE_MIN_RATING
+                    return minimum_rating
+            except ValueError:
+                print(self.error_colour('Only integers are allowed.'))
+            except Exception as e:
+                print(e)
+            finally:
+                print(Style.RESET_ALL)
+
+
+    def _get_start_year(self):
+
+        """Prompts the user to input the start year of movies, or leave it blank to skip this filter"""
+
+        DISABLE_START_YEAR = -1
+        while True:
+            try:
+                start_year = input(self.input_colour('Enter start year (leave blank for no start year): '))
+                if len(start_year) > 0:
+                    if start_year.isdigit() and len(start_year) != 4:
+                        raise Exception(self.error_colour('Wrong format of the year.'))
+                    start_year = int(start_year)
+                    return start_year
+                else:
+                    start_year = DISABLE_START_YEAR
+                    return start_year
+            except ValueError:
+                print(self.error_colour('Only integers are allowed.'))
+            except Exception as e:
+                print(e)
+            finally:
+                print(Style.RESET_ALL)
+
+
+    def _get_end_year(self):
+
+        """Prompts the user to input the end rating of movies, or leave it blank to skip this filter"""
+
+        DISABLE_END_YEAR = 10000
+        while True:
+            try:
+                end_year = input(self.input_colour('Enter end year (leave blank for no end year): '))
+                if len(end_year) > 0:
+                    if end_year.isdigit() and len(end_year) != 4:
+                        raise Exception(self.error_colour('Wrong format of the year.'))
+                    end_year = int(end_year)
+                    return end_year
+                else:
+                    end_year = DISABLE_END_YEAR
+                    return end_year
+            except ValueError:
+                print(self.error_colour('Only integers are allowed.'))
+            except Exception as e:
+                print(e)
+            finally:
+                print(Style.RESET_ALL)
+
+
+    def filter_movies(self, movies):
+
+        """Filters movies and prints them based on the entered criteria."""
+
+        while True:
+            minimum_rating = self._get_minimum_rating()
+            end_year = self._get_end_year()
+            start_year = self._get_start_year()
             break
 
         def filter_settings(movie_item):
