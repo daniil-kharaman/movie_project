@@ -1,20 +1,7 @@
-Title,Rating,Year of release
-The Shawshank Redemption,9.3,1994
-The Godfather,9.2,1972
-The Room,3.7,2003
-Battlefield Earth,2.5,2000
-The Dark Knight,9.0,2008
-Cats,2.8,2019
-Schindler's List,9.0,1993
-Morbius,5.2,2022
-Pulp Fiction,8.9,1994
-The Emoji Movie,3.3,2017
-Forrest Gump,8.8,1994
-Movie 43,4.3,2013
-Inception,8.7,2010
-The Matrix,8.7,1999
-Se7en,8.6,1995
-Harry Potter,0.0,2001
-The Gorge,8.0,2025
-Test4,10,2025
-Test5,10.0,2023
+Title,Rating,Year of release,Poster
+The Shawshank Redemption,9.3,1994,wwwposter
+
+The Avengers,8.0,2012,https://m.media-amazon.com/images/M/MV5BNGE0YTVjNzUtNzJjOS00NGNlLTgxMzctZTY4YTE1Y2Y1ZTU4XkEyXkFqcGc@._V1_SX300.jpg
+Spider Man: Lost Cause,4.1,2014,https://m.media-amazon.com/images/M/MV5BZGQzZjY1MGItYmVjZS00ZmFkLWIwYzYtZDg4ODBjYzE5NzU2XkEyXkFqcGc@._V1_SX300.jpg
+Batman,7.5,1989,https://m.media-amazon.com/images/M/MV5BYzZmZWViM2EtNzhlMi00NzBlLWE0MWEtZDFjMjk3YjIyNTBhXkEyXkFqcGc@._V1_SX300.jpg
+Thor,7.0,2011,https://m.media-amazon.com/images/M/MV5BNjRhNGZjZjEtYTQzYS00OWUxLThjNGEtMTIwMTE2ZDFlZTZkXkEyXkFqcGc@._V1_SX300.jpg

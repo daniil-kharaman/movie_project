@@ -3,12 +3,20 @@ import matplotlib.pyplot as plt
 from thefuzz import fuzz
 from colorama import init, Fore, Style
 import datetime
+from dotenv import load_dotenv
+import os
+import requests
 
+load_dotenv()
 init()
+
+API_KEY = os.getenv('API_KEY')
+
 
 class MovieApp:
     def __init__(self, storage):
         self._storage = storage
+
 
     def input_colour(self, text):
         """Contains the colour setup used for inputs"""
@@ -94,14 +102,21 @@ class MovieApp:
                 movie_input = input(self.input_colour('Enter the movie you would like to add: '))
                 if len(movie_input) == 0 or movie_input.isspace():
                     raise Exception(self.error_colour('Movie title must not be blank'))
-                if self.in_database(movies, movie_input):
+                endpoint = f"http://www.omdbapi.com/?apikey={API_KEY}&t={movie_input}"
+                response = requests.get(endpoint)
+                parsed_response = response.json()
+                if parsed_response == {"Response":"False","Error":"Movie not found!"}:
+                    raise ValueError(self.error_colour("Such movie doesn't exist!"))
+                title = parsed_response['Title']
+                if self.in_database(movies, title):
                     print(self.error_colour('The movie is already in the database.'))
                     return None
-                rating_input = self.get_valid_rating()
-                year_input = self.get_valid_year()
+                year = parsed_response['Year']
+                rating = parsed_response['imdbRating']
+                poster = parsed_response['Poster']
                 print(Style.RESET_ALL)
-                self._storage.add_movie(movie_input, year_input, rating_input)
-                print(f'The movie {movie_input} is successfully added.')
+                self._storage.add_movie(title, year, rating, poster)
+                print(f'The movie {title} is successfully added.')
                 break
             except Exception as e:
                 print(self.error_colour(f'The following error has occurred: {e}'))

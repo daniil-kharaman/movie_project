@@ -31,16 +31,17 @@ class StorageJson(IStorage):
     def list_movies(self):
         print(f'{len(self._movies)} movies in total\n')
         for movie in self._movies:
-            name, rating, year = tuple(movie.values())
-            print(f'{name}, rating: {rating}, year: {year}')
+            name, rating, year, poster = tuple(movie.values())
+            print(f'{name}, rating: {rating}, year: {year}, poster: {poster}')
 
 
-    def add_movie(self, title, year, rating, poster=0):
+    def add_movie(self, title, year, rating, poster):
         with open(self.file_path, 'w') as file:
             self._movies.append({
                 'Title': title,
-                'Rating': rating,
-                'Year of release': year
+                'Rating': float(rating),
+                'Year of release': int(year),
+                'Poster': poster
             })
             file.write(json.dumps(self._movies))
 
