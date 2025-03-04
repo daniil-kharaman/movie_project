@@ -6,6 +6,7 @@ import datetime
 from dotenv import load_dotenv
 import os
 import requests
+from template_render import MoviesRender
 
 load_dotenv()
 init()
@@ -37,7 +38,7 @@ class MovieApp:
     1. List movies
     2. Add movie
     3. Delete movie
-    4. Update movie
+    4. Generate website
     5. Stats
     6. Random movie
     7. Search movie
@@ -280,7 +281,7 @@ class MovieApp:
         """
 
         def year(movie):
-            return movie['Year of release']
+            return movie['Year']
 
         while True:
             try:
@@ -299,7 +300,7 @@ class MovieApp:
             reverse_on = False
         movies_sorted = sorted(movies, key=year, reverse=reverse_on)
         for movie_sorted in movies_sorted:
-            print(f"{movie_sorted['Title']}: rating: {movie_sorted['Rating']}, year: {movie_sorted['Year of release']}")
+            print(f"{movie_sorted['Title']}: rating: {movie_sorted['Rating']}, year: {movie_sorted['Year']}")
 
     def rating_histogram(self, movies):
         """Creates in the directory the png file with the histogram based on movies' ratings"""
@@ -382,8 +383,8 @@ class MovieApp:
             break
 
         def filter_settings(movie_item):
-            if (movie_item['Rating'] >= minimum_rating and end_year >= movie_item['Year of release'] >= start_year
-                    and movie_item['Year of release']):
+            if (movie_item['Rating'] >= minimum_rating and end_year >= movie_item['Year'] >= start_year
+                    and movie_item['Year']):
                 return True
             else:
                 return False
@@ -391,7 +392,7 @@ class MovieApp:
         filtered_movies = filter(filter_settings, movies)
         print('Filtered movies: ')
         for movie in filtered_movies:
-            print(f"{movie['Title']} ({movie['Year of release']}): {movie['Rating']}")
+            print(f"{movie['Title']} ({movie['Year']}): {movie['Rating']}")
 
 
     def run(self):
@@ -419,7 +420,8 @@ class MovieApp:
             if user_action == '3':
                 self.delete_movie(movies)
             if user_action == '4':
-                self.update_movie(movies)
+                website_generator = MoviesRender(movies)
+                website_generator.render()
             if user_action == '5':
                 self.stats(movies)
             if user_action == '6':

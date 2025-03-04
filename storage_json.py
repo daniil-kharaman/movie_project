@@ -40,7 +40,7 @@ class StorageJson(IStorage):
             self._movies.append({
                 'Title': title,
                 'Rating': float(rating),
-                'Year of release': int(year),
+                'Year': int(year),
                 'Poster': poster
             })
             file.write(json.dumps(self._movies))

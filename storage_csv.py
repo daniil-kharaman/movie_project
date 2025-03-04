@@ -16,7 +16,7 @@ class StorageCsv(IStorage):
                     parsed_movies.append({
                         'Title': row['Title'],
                         'Rating': float(row['Rating']),
-                        'Year of release': int(row['Year of release']),
+                        'Year': int(row['Year']),
                         'Poster': row['Poster']
                     })
                 if len(parsed_movies) == 0:
@@ -40,9 +40,9 @@ class StorageCsv(IStorage):
 
     def add_movie(self, title, year, rating, poster):
         with open(self.file_path, 'a', newline='') as file:
-            fieldnames = ['Title', 'Rating', 'Year of release', 'Poster']
+            fieldnames = ['Title', 'Rating', 'Year', 'Poster']
             writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writerow({'Title': title, 'Rating': rating, 'Year of release': year, 'Poster': poster})
+            writer.writerow({'Title': title, 'Rating': rating, 'Year': year, 'Poster': poster})
 
 
 
@@ -50,7 +50,7 @@ class StorageCsv(IStorage):
         movies = self.get_movies()
         movies.pop(index)
         with open(self.file_path, 'w') as file:
-            fieldnames = ['Title', 'Rating', 'Year of release', 'Poster']
+            fieldnames = ['Title', 'Rating', 'Year', 'Poster']
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(movies)
@@ -60,7 +60,7 @@ class StorageCsv(IStorage):
         movies = self.get_movies()
         movies[index]['Rating'] = rating
         with open(self.file_path, 'w') as file:
-            fieldnames = ['Title', 'Rating', 'Year of release', 'Poster']
+            fieldnames = ['Title', 'Rating', 'Year', 'Poster']
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(movies)
