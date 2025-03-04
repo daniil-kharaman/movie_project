@@ -15,6 +15,9 @@ class MoviesRender:
 
 
     def render(self):
+
+        """Renders the html page due to template"""
+
         with open(MoviesRender._RESULT_FILENAME, mode="w", encoding="utf-8") as result:
             result.write(MoviesRender._TEMPLATE.render(self.__context))
             print(f"Website has been successfully generated to {MoviesRender._RESULT_FILENAME}")

@@ -9,14 +9,6 @@ class StorageJson(IStorage):
 
 
     def get_movies(self):
-        """
-        Returns a list of dictionaries that
-        contains the movies information in the database.
-
-        The function loads the information from the JSON
-        file and returns the data.
-        """
-
         try:
             with open(self.file_path, 'r') as file:
                 return json.loads(file.read())
@@ -56,10 +48,3 @@ class StorageJson(IStorage):
         with open(self.file_path, 'w') as file:
             self._movies[index]['Rating'] = rating
             file.write(json.dumps(self._movies))
-
-
-# json_storage = StorageJson('data.json')
-# movies = json_storage.get_movies()
-# json_storage.list_movies()
-# json_storage.delete_movie(17)
-# json_storage.list_movies()
