@@ -1,8 +1,7 @@
 from movie_app import MovieApp
-from storage_json import StorageJson
-from storage_csv import StorageCsv
+from storage.storage_json import StorageJson
 
-storage = StorageJson('data.json')
-# storage = StorageCsv('data.csv')
+storage = StorageJson('data/data.json')
+# storage = StorageCsv('data/data.csv')
 movie_app = MovieApp(storage)
 movie_app.run()

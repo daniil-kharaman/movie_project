@@ -9,7 +9,7 @@ class IStorage(ABC):
         Returns a list of dictionaries that
         contains the movies information in the database.
 
-        The function loads the information from the JSON
+        The function loads the information from the
         file and returns the data.
         """
 
@@ -29,7 +29,7 @@ class IStorage(ABC):
 
         """
         Adds a movie to the movies database.
-        Loads the information from the JSON file, add the movie,
+        Loads the information from the file, add the movie,
         and saves it. The function doesn't need to validate the input.
         """
 
@@ -41,7 +41,7 @@ class IStorage(ABC):
 
         """
         Deletes a movie from the movies database.
-        Loads the information from the JSON file, deletes the movie,
+        Loads the information from the file, deletes the movie,
         and saves it. The function doesn't need to validate the input.
         """
 
@@ -53,7 +53,7 @@ class IStorage(ABC):
 
         """
         Updates a movie from the movies database.
-        Loads the information from the JSON file, updates the movie,
+        Loads the information from the file, updates the movie,
         and saves it. The function doesn't need to validate the input.
         """
 

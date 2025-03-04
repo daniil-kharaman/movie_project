@@ -2,7 +2,6 @@ import random
 import matplotlib.pyplot as plt
 from thefuzz import fuzz
 from colorama import init, Fore, Style
-import datetime
 from dotenv import load_dotenv
 import os
 import requests
