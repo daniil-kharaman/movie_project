@@ -19,7 +19,10 @@ class IStorage(ABC):
     @abstractmethod
     def list_movies(self):
 
-        """Prints all movies from the database"""
+        """
+        Getter function. Returns a list of dictionaries that
+        contains the movies information.
+        """
 
         pass
 

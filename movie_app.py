@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import os
 import requests
 from template_render import MoviesRender
+from storage.istorage import IStorage
 
 load_dotenv()
 init()
@@ -15,7 +16,13 @@ API_KEY = os.getenv('API_KEY')
 
 class MovieApp:
     def __init__(self, storage):
-        self._storage = storage
+        try:
+            if not isinstance(storage, IStorage):
+                raise TypeError('Wrong type of the storage.')
+            self._storage = storage
+        except (TypeError, Exception) as e:
+            print(self.error_colour(f"Such error occurred: {e}"))
+            quit()
 
 
     def input_colour(self, text):
@@ -72,7 +79,10 @@ class MovieApp:
 
         """Prints all movies from the database"""
 
-        self._storage.list_movies()
+        print(f'{len(self._storage.list_movies)} movies in total\n')
+        for movie in self._storage.list_movies:
+            name, rating, year, poster = tuple(movie.values())
+            print(f"Name: {name}, Rating: {rating}, Year: {year}\nPoster Link: {poster}")
 
 
     def in_database(self, movies, movie_input):
@@ -290,10 +300,7 @@ class MovieApp:
 
         """Prints movies sorted by rating in descended order"""
 
-        def rating(movie):
-            return movie['Rating']
-
-        movies_sorted = sorted(movies, key=rating, reverse=True)
+        movies_sorted = sorted(movies, key=lambda movie: movie['Rating'], reverse=True)
         for movie_sorted in movies_sorted:
             print(f"{movie_sorted['Title']}: {movie_sorted['Rating']}")
 
@@ -305,25 +312,20 @@ class MovieApp:
         prints movies sorted by year accordingly
         """
 
-        def year(movie):
-            return movie['Year']
-
         while True:
             try:
-                user_input = int(input('To see the latest movies first, type "1". To see them last, type "2": '))
-                if user_input != 1 and user_input != 2:
-                    raise Exception('Wrong format of the operation. Only "1" or "2" are allowed.')
+                user_input = int(input('To see the latest movies first, type "1". To see them last, type "0": '))
+                if user_input != 1 and user_input != 0:
+                    raise Exception('Wrong format of the operation. Only "1" or "0" are allowed.')
                 break
             except ValueError:
-                print('The field must not be blank. Only integers are allowed.')
+                print(self.error_colour('The field must not be blank. Only integers are allowed.'))
+
             except Exception as e:
                 print(self.error_colour(f'The following error has occurred: {e}'))
-        reverse_on = 0
-        if user_input == 1:
-            reverse_on = True
-        elif user_input == 2:
-            reverse_on = False
-        movies_sorted = sorted(movies, key=year, reverse=reverse_on)
+            finally:
+                print(Style.RESET_ALL)
+        movies_sorted = sorted(movies, key=lambda movie: movie['Year'], reverse=bool(user_input))
         for movie_sorted in movies_sorted:
             print(f"{movie_sorted['Title']}: rating: {movie_sorted['Rating']}, year: {movie_sorted['Year']}")
 
@@ -343,9 +345,10 @@ class MovieApp:
                 print(self.error_colour('Invalid file name.'))
             else:
                 plt.savefig(file_name + '.png')
-            raise Exception('Simulated Matplotlib error')
         except Exception as e:
             print(self.error_colour(f'The following error has occurred: {e}'))
+        finally:
+            print(Style.RESET_ALL)
 
 
     def _get_minimum_rating(self):
@@ -424,11 +427,10 @@ class MovieApp:
 
         """Filters movies and prints them based on the entered criteria."""
 
-        while True:
-            minimum_rating = self._get_minimum_rating()
-            end_year = self._get_end_year()
-            start_year = self._get_start_year()
-            break
+        minimum_rating = self._get_minimum_rating()
+        end_year = self._get_end_year()
+        start_year = self._get_start_year()
+
 
         def filter_settings(movie_item):
             if (movie_item['Rating'] >= minimum_rating and end_year >= movie_item['Year'] >= start_year
@@ -450,7 +452,7 @@ class MovieApp:
         valid_inputs = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
         self.title()
         while True:
-            movies = self._storage.get_movies()
+            movies = self._storage.list_movies
             if not movies:
                 break
             self.menu()

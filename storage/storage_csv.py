@@ -28,36 +28,48 @@ class StorageCsv(IStorage):
             print(f'The following error has occurred: {e}')
 
 
+    @property
     def list_movies(self):
-        movies = self.get_movies()
-        print(f'{len(movies)} movies in total\n')
-        for movie in movies:
-            name, rating, year, poster = tuple(movie.values())
-            print(f'{name}, rating: {rating}, year: {year}, poster: {poster}')
+        return self.get_movies()
 
 
     def add_movie(self, title, year, rating, poster):
-        with open(self.file_path, 'a', newline='') as file:
-            fieldnames = ['Title', 'Rating', 'Year', 'Poster']
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writerow({'Title': title, 'Rating': rating, 'Year': year, 'Poster': poster})
+        try:
+            with open(self.file_path, 'a', newline='') as file:
+                fieldnames = ['Title', 'Rating', 'Year', 'Poster']
+                writer = csv.DictWriter(file, fieldnames=fieldnames)
+                writer.writerow({'Title': title, 'Rating': rating, 'Year': year, 'Poster': poster})
+        except FileNotFoundError:
+            print('Can not access the database!')
+        except Exception as e:
+            print(f'The following error has occurred: {e}')
 
 
     def delete_movie(self, index):
-        movies = self.get_movies()
-        movies.pop(index)
-        with open(self.file_path, 'w') as file:
-            fieldnames = ['Title', 'Rating', 'Year', 'Poster']
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(movies)
+        try:
+            movies = self.get_movies()
+            movies.pop(index)
+            with open(self.file_path, 'w') as file:
+                fieldnames = ['Title', 'Rating', 'Year', 'Poster']
+                writer = csv.DictWriter(file, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(movies)
+        except FileNotFoundError:
+            print('Can not access the database!')
+        except Exception as e:
+            print(f'The following error has occurred: {e}')
 
 
     def update_movie(self, index, rating):
-        movies = self.get_movies()
-        movies[index]['Rating'] = rating
-        with open(self.file_path, 'w') as file:
-            fieldnames = ['Title', 'Rating', 'Year', 'Poster']
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(movies)
+        try:
+            movies = self.get_movies()
+            movies[index]['Rating'] = rating
+            with open(self.file_path, 'w') as file:
+                fieldnames = ['Title', 'Rating', 'Year', 'Poster']
+                writer = csv.DictWriter(file, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(movies)
+        except FileNotFoundError:
+            print('Can not access the database!')
+        except Exception as e:
+            print(f'The following error has occurred: {e}')
