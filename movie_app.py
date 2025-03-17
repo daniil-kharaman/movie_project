@@ -82,7 +82,7 @@ class MovieApp:
         print(f'{len(self._storage.list_movies)} movies in total\n')
         for movie in self._storage.list_movies:
             name, rating, year, poster = tuple(movie.values())
-            print(f"Name: {name}, Rating: {rating}, Year: {year}\nPoster Link: {poster}")
+            print(f"Name: {name}, Rating: {rating}, Year: {year}\nPoster Link: {poster}\n")
 
 
     def in_database(self, movies, movie_input):
